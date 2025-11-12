@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - Dolce Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-green: #1a4d2e;
+            --medium-green: #2d5f3f;
+            --yellow: #f4c430;
+            --dark-yellow: #daa520;
+            --brown: #6b4423;
+            --light-brown: #8b6f47;
+            --cream: #faf6f0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cream);
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .page-header {
+            background: linear-gradient(rgba(26, 77, 46, 0.8), rgba(107, 68, 35, 0.75)), 
+                        url('img/bg.png');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 140px 5% 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 40% 40%, rgba(244, 196, 48, 0.18) 0%, transparent 45%),
+                        radial-gradient(circle at 60% 60%, rgba(26, 77, 46, 0.22) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(10deg); }
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            z-index: 2;
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 100px 5%;
+            background: var(--white);
+        }
+
+        .story-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .story-text h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--dark-green);
+            margin-bottom: 30px;
+        }
+
+        .story-text p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .story-image {
+            text-align: center;
+            font-size: 300px;
+            animation: bounce 3s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 100px 5%;
+            background: var(--cream);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--yellow);
+            margin: 20px auto 60px;
+            border-radius: 2px;
+        }
+
+        .values-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        .value-card {
+            background: var(--white);
+            padding: 50px 35px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .value-icon {
+            font-size: 4rem;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .value-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Process Section */
+        .process-section {
+            padding: 100px 5%;
+            background: linear-gradient(135deg, var(--dark-green), var(--brown));
+            color: var(--white);
+        }
+
+        .process-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .process-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 80px;
+            opacity: 0.9;
+        }
+
+        .process-steps {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--yellow);
+            color: var(--dark-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 auto 25px;
+            box-shadow: 0 10px 30px rgba(244, 196, 48, 0.3);
+        }
+
+        .process-step h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .process-step p {
+            opacity: 0.9;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 5%;
+            background: var(--cream);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--dark-green);
+            margin-bottom: 30px;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: 18px 50px;
+            background: var(--yellow);
+            color: var(--dark-green);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(244, 196, 48, 0.3);
+        }
+
+        .btn-cta:hover {
+            background: var(--dark-yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(244, 196, 48, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .story-content {
+                grid-template-columns: 1fr;
+            }
+
+            .story-image {
+                font-size: 150px;
+            }
+
+            .section-title, .process-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <section class="page-header">
+        <h1>Tentang Dolce Coffee</h1>
+        <p>Perjalanan kami dalam menghadirkan cita rasa kopi terbaik untuk Anda</p>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section">
+        <div class="story-content">
+            <div class="story-text">
+                <h2>Cerita Kami</h2>
+                <p>Dolce Coffee adalah sebuah usaha UMKM yang bergerak di bidang kuliner dengan fokus pada penyajian minuman kopi berkualitas. Dengan mengusung konsep kedai kopi lokal, Dolce Coffee berkomitmen menghadirkan cita rasa kopi yang otentik namun tetap terjangkau bagi semua kalangan.</p>
+                <p>Biji kopi yang digunakan dipilih dari petani lokal Indonesia dan lebih tepatnya berada di malino, sehingga selain menjaga kualitas rasa, usaha ini juga mendukung pemberdayaan ekonomi petani kopi dalam negeri.</p>
+                
+            </div>
+            <div class="story-image">🌱</div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <h2 class="section-title">Nilai-Nilai Kami</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <span class="value-icon">🏆</span>
+                <h3>Kualitas Terbaik</h3>
+                <p>Kami hanya memilih biji kopi premium dari perkebunan terbaik untuk menjamin cita rasa yang luar biasa di setiap produk.</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">🤝</span>
+                <h3>Kemitraan Fair</h3>
+                <p>Kami berkomitmen untuk memberikan harga yang adil kepada para petani kopi dan membangun hubungan jangka panjang.</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">♻️</span>
+                <h3>Berkelanjutan</h3>
+                <p>Kami peduli terhadap lingkungan dengan praktik pertanian berkelanjutan dan kemasan ramah lingkungan.</p>
+            </div>
+            <div class="value-card">
+                <span class="value-icon">❤️</span>
+                <h3>Passion</h3>
+                <p>Setiap cangkir kopi kami dibuat dengan penuh cinta dan dedikasi untuk memberikan pengalaman terbaik.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process-section">
+        <h2 class="process-title">Proses Kami</h2>
+        <p class="process-subtitle">Dari biji hingga cangkir, setiap langkah dilakukan dengan presisi</p>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Seleksi Biji</h3>
+                <p>Memilih biji kopi terbaik dari perkebunan pilihan dengan standar kualitas tertinggi</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>Roasting</h3>
+                <p>Proses roasting yang presisi untuk menghasilkan profil rasa yang sempurna</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Quality Control</h3>
+                <p>Setiap batch diuji untuk memastikan konsistensi dan kualitas terbaik</p>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3>Packaging</h3>
+                <p>Dikemas dengan hati-hati untuk menjaga kesegaran dan kualitas kopi</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Siap Merasakan Pengalaman Dolce Coffee?</h2>
+            <p>Jelajahi koleksi kopi premium kami dan temukan favorit baru Anda hari ini!</p>
+            <a href="produk.html" class="btn-cta">Lihat Produk Kami</a>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load header and footer
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                updateCartCount();
+            });
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

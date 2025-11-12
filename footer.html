@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<style>
+    :root {
+        --dark-green: #1a4d2e;
+        --yellow: #f4c430;
+        --brown: #6b4423;
+        --cream: #faf6f0;
+        --white: #ffffff;
+    }
+
+    .footer {
+        background: linear-gradient(135deg, var(--dark-green), var(--brown));
+        color: var(--white);
+        padding: 80px 5% 30px;
+    }
+
+    .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 50px;
+        margin-bottom: 50px;
+    }
+
+    .footer-section h3 {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        color: var(--yellow);
+    }
+
+    .footer-section p {
+        line-height: 1.8;
+        opacity: 0.9;
+        margin-bottom: 20px;
+    }
+
+    .footer-links {
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin-bottom: 15px;
+    }
+
+    .footer-links a {
+        color: var(--white);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        opacity: 0.9;
+    }
+
+    .footer-links a:hover {
+        color: var(--yellow);
+        transform: translateX(5px);
+        opacity: 1;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 20px;
+        margin-top: 25px;
+    }
+
+    .social-links a {
+        width: 45px;
+        height: 45px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .social-links a:hover {
+        background: var(--yellow);
+        color: var(--dark-green);
+        transform: translateY(-5px);
+    }
+
+    .contact-info {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        opacity: 0.9;
+    }
+
+    .contact-item i {
+        color: var(--yellow);
+        font-size: 1.2rem;
+        width: 25px;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        opacity: 0.8;
+    }
+
+    .footer-logo {
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        overflow: hidden;
+        animation: float 3s ease-in-out infinite;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .footer-logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    @media (max-width: 768px) {
+        .footer-content {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .newsletter-form {
+            flex-direction: column;
+        }
+
+        .newsletter-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <div class="footer-logo">
+                <img src="img/logo.jpg" alt="Dolce Coffee Logo">
+            </div>
+            <h3>Dolce Coffee</h3>
+            <p>Menghadirkan pengalaman kopi premium terbaik dari biji pilihan berkualitas tinggi. Nikmati kelezatan di setiap tegukan.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h3>Menu</h3>
+            <ul class="footer-links">
+                <li><a href="index.html"><i class="fas fa-chevron-right"></i> Beranda</a></li>
+                <li><a href="produk.html"><i class="fas fa-chevron-right"></i> Produk</a></li>
+                <li><a href="about.html"><i class="fas fa-chevron-right"></i> Tentang Kami</a></li>
+                <li><a href="cart.html"><i class="fas fa-chevron-right"></i> Keranjang</a></li>
+                <li><a href="checkout.html"><i class="fas fa-chevron-right"></i> Checkout</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Kontak</h3>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>JI. Rutan No. 38E<br>Makassar, Indonesia</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+62 851-7329-2984</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>dolcecofee@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Senin - Minggu: 16:00 - 23:00</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 Dolce Coffee. All Rights Reserved. Crafted with <i class="fas fa-heart" style="color: var(--yellow);"></i> and Coffee</p>
+    </div>
+</footer>

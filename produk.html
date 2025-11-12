@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produk - Dolce Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-green: #1a4d2e;
+            --medium-green: #2d5f3f;
+            --light-green: #4f7942;
+            --yellow: #f4c430;
+            --dark-yellow: #daa520;
+            --brown: #6b4423;
+            --light-brown: #8b6f47;
+            --cream: #faf6f0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--cream);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(26, 77, 46, 0.8), rgba(107, 68, 35, 0.75)), 
+                        url('img/bgg.png');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 120px 5% 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(244, 196, 48, 0.2) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(26, 77, 46, 0.25) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: 60px 5%;
+            background: var(--white);
+        }
+
+        .filter-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 12px 30px;
+            background: var(--cream);
+            color: var(--dark-green);
+            border: 2px solid var(--dark-green);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--dark-green);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 60px 5% 100px;
+            background: var(--cream);
+        }
+
+        .products-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            height: 280px;
+            background: linear-gradient(135deg, var(--dark-green), var(--brown));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 4s infinite linear;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--yellow);
+            color: var(--dark-green);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+            text-transform: uppercase;
+        }
+
+        .product-info {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category {
+            color: var(--brown);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--dark-green);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .product-desc {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            flex: 1;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            color: var(--yellow);
+            font-size: 1rem;
+        }
+
+        .rating-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 2.2rem;
+            color: var(--brown);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .product-price small {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .btn-add-cart {
+            width: 100%;
+            padding: 16px;
+            background: var(--dark-green);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-add-cart:hover {
+            background: var(--medium-green);
+            transform: scale(1.02);
+        }
+
+        .btn-add-cart:active {
+            transform: scale(0.98);
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 100px 20px;
+            font-size: 1.5rem;
+            color: var(--brown);
+        }
+
+        .no-results i {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <h1>Koleksi Kopi Premium</h1>
+        <p>Temukan kopi pilihan terbaik untuk setiap momen spesial Anda</p>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterProducts('all')">Semua Produk</button>
+            <button class="filter-btn" onclick="filterProducts('coffee')">Coffee</button>
+            <button class="filter-btn" onclick="filterProducts('non-coffee')">Non-Coffee</button>
+            <button class="filter-btn" onclick="filterProducts('signature')">Signature</button>
+            <button class="filter-btn" onclick="filterProducts('bestseller')">Best Seller</button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be loaded here -->
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: 'Dolce Coffee',
+                category: 'signature',
+                description: 'Kopi Arabica pilihan dengan cita rasa halus dan aroma yang menggoda dari perkebunan terbaik',
+                price: 15000,
+                rating: 4.9,
+                reviews: 127,
+                badge: 'Best Seller',
+                image: 'img/Dolce Coffee (1).JPG'
+            },
+            {
+                id: 2,
+                name: 'Pandan Latte',
+                category: 'signature',
+                description: 'Kopi Robusta dengan karakter kuat dan body yang tebal untuk pecinta kopi sejati',
+                price: 15000,
+                oldPrice: null,
+                rating: 4.7,
+                reviews: 89,
+                badge: 'Premium',
+                image: 'img/Pandan Latte.png'
+            },
+            {
+                id: 3,
+                name: 'Aren Latte',
+                category: 'signature',
+                description: 'Racikan spesial perpaduan sempurna Arabica dan Robusta untuk pengalaman maksimal',
+                price: 15000,
+                rating: 5.0,
+                reviews: 203,
+                badge: 'Exclusive',
+                image: 'img/aren latte.png'
+            },
+            {
+                id: 4,
+                name: 'Cookies Cream',
+                category: 'non-coffee',
+                description: 'Kopi Arabica dari dataran tinggi Gayo dengan karakter unik dan cita rasa eksotis',
+                price: 15000,
+                oldPrice: null,
+                rating: 4.8,
+                reviews: 156,
+                badge: 'New',
+                image: 'img/cookies cream.png'
+            },
+            {
+                id: 5,
+                name: 'Taro',
+                category: 'non-coffee',
+                description: 'Robusta pilihan dari Lampung dengan tingkat kafein tinggi dan rasa yang kuat',
+                price: 13000,
+                oldPrice: null,
+                rating: 4.6,
+                reviews: 92,
+                badge: null,
+                image: 'img/taro.png'
+            },
+            {
+                id: 6,
+                name: 'Thai Tea',
+                category: 'non-coffee',
+                description: 'Campuran sempurna untuk memulai hari dengan energi dan semangat baru',
+                price: 13000,
+                oldPrice: 130000,
+                rating: 4.7,
+                reviews: 145,
+                badge: 'Popular',
+                image: 'img/thai tea.png'
+            },
+            {
+                id: 7,
+                name: 'Americano',
+                category: 'coffee',
+                description: 'Kopi legendaris dari Toraja dengan kompleksitas rasa yang memukau',
+                price: 10000,
+                oldPrice: null,
+                rating: 4.9,
+                reviews: 178,
+                badge: 'Premium',
+                image: 'img/americano.png'
+            },
+            {
+                id: 8,
+                name: 'Red Velvet',
+                category: 'non-coffee',
+                description: 'Robusta klasik dari Jawa dengan tradisi roasting yang diwariskan turun temurun',
+                price: 13000,
+                oldPrice: null,
+                rating: 4.5,
+                reviews: 67,
+                badge: null,
+                image: 'img/red velvet.png'
+            },
+            {
+                id: 9,
+                name: 'Vanilla Latte',
+                category: 'coffee',
+                description: 'Blend spesial untuk dinikmati di sore hari dengan karakter smooth dan mellow',
+                price: 15000,
+                oldPrice: 160000,
+                rating: 4.8,
+                reviews: 134,
+                badge: 'Best Seller',
+                image: 'img/vanilla latte.png'
+            },
+            {
+                id: 9,
+                name: 'Choco Dark',
+                category: 'non-coffee',
+                description: 'Blend spesial untuk dinikmati di sore hari dengan karakter smooth dan mellow',
+                price: 15000,
+              
+                rating: 4.8,
+                reviews: 134,
+                badge: 'Best Seller',
+                image: 'img/choco dark.png'
+            },
+            {
+                id: 9,
+                name: 'Lychee Tea',
+                category: 'non-coffee',
+                description: 'Blend spesial untuk dinikmati di sore hari dengan karakter smooth dan mellow',
+                price: 15000,
+                
+                rating: 4.8,
+                reviews: 134,
+                badge: 'Best Seller',
+                image: 'img/lychee tea.png'
+            },
+            {
+                id: 9,
+                name: 'Coffee Milk',
+                category: 'coffee',
+                description: 'Blend spesial untuk dinikmati di sore hari dengan karakter smooth dan mellow',
+                price: 13000,
+               
+                rating: 4.8,
+                reviews: 134,
+                badge: 'Best Seller',
+                image: 'img/coffee milk.png'
+            },
+            {
+                id: 9,
+                name: 'Banana Coffee',
+                category: 'coffee',
+                description: 'Blend spesial untuk dinikmati di sore hari dengan karakter smooth dan mellow',
+                price: 15000,
+                
+                rating: 4.8,
+                reviews: 134,
+                badge: 'Best Seller',
+                image: 'img/banana coffee.png'
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function loadProducts() {
+            const grid = document.getElementById('products-grid');
+            const filteredProducts = currentFilter === 'all' 
+                ? products 
+                : currentFilter === 'bestseller'
+                ? products.filter(p => p.badge === 'Best Seller')
+                : products.filter(p => p.category === currentFilter);
+
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-coffee"></i>
+                        <p>Tidak ada produk dalam kategori ini</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-desc">${product.description}</p>
+                        <div class="product-rating">
+                            <div class="stars">
+                                ${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}
+                            </div>
+                            <span class="rating-text">${product.rating} (${product.reviews} ulasan)</span>
+                        </div>
+                        <div class="product-price">
+                            Rp ${product.price.toLocaleString('id-ID')}
+                            ${product.oldPrice ? `<small>Rp ${product.oldPrice.toLocaleString('id-ID')}</small>` : ''}
+                        </div>
+                        <button class="btn-add-cart" onclick="addToCart('${product.name}', ${product.price})">
+                            <i class="fas fa-shopping-cart"></i>
+                            Tambah ke Keranjang
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts(category) {
+            currentFilter = category;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadProducts();
+        }
+
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                // Dapatkan gambar dari data produk
+                const product = products.find(p => p.name === name);
+                
+                cart.push({
+                    name: name,
+                    price: price,
+                    quantity: 1,
+                    image: product ? product.image : 'img/default-coffee.jpg'
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show notification
+            alert(`${name} berhasil ditambahkan ke keranjang!`);
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Load header and footer
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                updateCartCount();
+            });
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+
+        // Load products on page load
+        loadProducts();
+    </script>
+</body>
+</html>

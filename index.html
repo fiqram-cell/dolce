@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dolce Coffee - Kopi Premium Pilihan Terbaik</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-green: #1a4d2e;
+            --medium-green: #2d5f3f;
+            --light-green: #4f7942;
+            --yellow: #f4c430;
+            --dark-yellow: #daa520;
+            --brown: #6b4423;
+            --light-brown: #8b6f47;
+            --cream: #faf6f0;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: var(--cream);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(26, 77, 46, 0.75), rgba(107, 68, 35, 0.65)), 
+                        url('img/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(244, 196, 48, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(26, 77, 46, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(5deg); }
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 800px;
+            padding: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .btn-hero {
+            display: inline-block;
+            padding: 18px 45px;
+            background: var(--yellow);
+            color: var(--dark-green);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(244, 196, 48, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-hero:hover {
+            background: var(--dark-yellow);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(244, 196, 48, 0.5);
+        }
+
+        /* Featured Section */
+        .featured {
+            padding: 100px 5%;
+            background: var(--white);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            text-align: center;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--yellow);
+            margin: 20px auto;
+            border-radius: 2px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--brown);
+            font-size: 1.2rem;
+            margin-bottom: 60px;
+            font-weight: 300;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--cream);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 300px;
+            background: linear-gradient(135deg, var(--dark-green), var(--brown));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-image::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--yellow);
+            color: var(--dark-green);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .product-info {
+            padding: 30px;
+        }
+
+        .product-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--dark-green);
+            margin-bottom: 10px;
+        }
+
+        .product-desc {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            color: var(--brown);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .btn-add-cart {
+            width: 100%;
+            padding: 15px;
+            background: var(--dark-green);
+            color: var(--white);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-add-cart:hover {
+            background: var(--medium-green);
+            transform: scale(1.05);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 80px 5%;
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .testimonials-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--dark-green);
+        }
+
+        .testimonials-header p {
+            font-size: 1.2rem;
+            color: var(--brown);
+        }
+
+        .testimonials-container {
+            position: relative;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonials-wrapper {
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 20px 0 40px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--yellow) #f0f0f0;
+        }
+
+        .testimonials-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .testimonials-wrapper::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .testimonials-wrapper::-webkit-scrollbar-thumb {
+            background: var(--yellow);
+            border-radius: 10px;
+        }
+
+        .testimonials-wrapper::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-yellow);
+        }
+
+        .testimonial-card {
+            min-width: 280px;
+            background: var(--cream);
+            border-radius: 15px;
+            padding: 25px 20px;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yellow), var(--dark-yellow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-green);
+            box-shadow: 0 3px 15px rgba(244, 196, 48, 0.3);
+            flex-shrink: 0;
+        }
+
+        .testimonial-info {
+            flex: 1;
+        }
+
+        .testimonial-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+            color: var(--dark-green);
+        }
+
+        .testimonial-role {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 12px;
+            color: var(--yellow);
+            font-size: 1rem;
+        }
+
+        .testimonial-text {
+            line-height: 1.6;
+            color: #555;
+            font-style: italic;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 3rem;
+            font-family: 'Playfair Display', serif;
+            position: absolute;
+            top: -15px;
+            left: -8px;
+            opacity: 0.15;
+            line-height: 1;
+            color: var(--dark-green);
+        }
+
+        .testimonial-date {
+            margin-top: 12px;
+            color: #999;
+            font-size: 0.8rem;
+            text-align: right;
+        }
+
+        .scroll-hint {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 0.9rem;
+            animation: pulse 2s ease infinite;
+        }
+
+        .scroll-hint i {
+            margin: 0 8px;
+            color: var(--yellow);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-card {
+                min-width: 300px;
+            }
+
+            .testimonials-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-image {
+                font-size: 150px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Dolce Coffee</h1>
+            <p>Nikmati Kelezatan Kopi Premium dari Biji Pilihan Terbaik</p>
+            <a href="produk.html" class="btn-hero">Jelajahi Produk</a>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured">
+        <h2 class="section-title">Produk Unggulan</h2>
+        <p class="section-subtitle">Pilihan kopi terbaik untuk pengalaman sempurna</p>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/Dolce Coffee (1).JPG" alt="Arabica Premium">
+                    <span class="product-badge">Best Seller</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Dolce Coffee</h3>
+                    <p class="product-desc">Kopi Arabica pilihan dengan cita rasa halus</p>
+                    <div class="product-price">Rp 15.000</div>
+                    <button class="btn-add-cart" onclick="addToCart('Arabica Premium', 125000)">
+                        <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/aren latte.png" alt="Robusta Bold">
+                    <span class="product-badge">Best Seller</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Aren latte</h3>
+                    <p class="product-desc">Kopi dengan karakter kuat dan body yang tebal</p>
+                    <div class="product-price">Rp 15.000</div>
+                    <button class="btn-add-cart" onclick="addToCart('Robusta Bold', 95000)">
+                        <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/vanilla latte.png" alt="Dolce Blend">
+                    <span class="product-badge">Best Seller</span>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Vanilla Latte</h3>
+                    <p class="product-desc">Racikan spesial perpaduan sempurna Arabica dan Robusta</p>
+                    <div class="product-price">Rp 15.000</div>
+                    <button class="btn-add-cart" onclick="addToCart('Dolce Blend', 150000)">
+                        <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="testimonials-header">
+            <h2>Apa Kata Pelanggan Kami</h2>
+            <p>Ribuan pelanggan telah merasakan kelezatan Dolce Coffee</p>
+        </div>
+
+        <div class="testimonials-container">
+            <div class="testimonials-wrapper" id="testimonials-wrapper">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">R</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Rina Permata</div>
+                            <div class="testimonial-role">Coffee Enthusiast</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ★★★★★
+                    </div>
+                    <p class="testimonial-text">
+                        Arabica Premium dari Dolce Coffee benar-benar luar biasa! Aromanya menggoda dan rasanya sangat balance. Sekarang ini jadi kopi favorit saya setiap pagi.
+                    </p>
+                    <div class="testimonial-date">2 hari yang lalu</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">B</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Budi Santoso</div>
+                            <div class="testimonial-role">Entrepreneur</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ★★★★★
+                    </div>
+                    <p class="testimonial-text">
+                        Sebagai pecinta kopi, saya sangat puas dengan kualitas Dolce Blend. Perpaduan Arabica dan Robusta-nya sempurna. Recommended banget!
+                    </p>
+                    <div class="testimonial-date">5 hari yang lalu</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">S</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Sarah Wijaya</div>
+                            <div class="testimonial-role">Designer</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ★★★★★
+                    </div>
+                    <p class="testimonial-text">
+                        Kopi terbaik yang pernah saya coba! Packaging-nya juga cantik, cocok banget buat kado. Pelayanan fast response, pengiriman cepat. Top!
+                    </p>
+                    <div class="testimonial-date">1 minggu yang lalu</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">A</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Andi Pratama</div>
+                            <div class="testimonial-role">Software Engineer</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ★★★★★
+                    </div>
+                    <p class="testimonial-text">
+                        Robusta Bold-nya mantap! Pas banget buat saya yang butuh caffeine boost untuk coding marathon. Body-nya tebal dan rasa pahitnya pas.
+                    </p>
+                    <div class="testimonial-date">1 minggu yang lalu</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">D</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Dina Marlina</div>
+                            <div class="testimonial-role">Barista</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ★★★★★
+                    </div>
+                    <p class="testimonial-text">
+                        Sebagai barista profesional, saya sangat merekomendasikan Dolce Coffee. Kualitas biji kopinya konsisten dan hasil roasting-nya perfect!
+                    </p>
+                    <div class="testimonial-date">2 minggu yang lalu</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">F</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Fajar Rahman</div>
+                            <div class="testimonial-role">Content Creator</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ★★★★★
+                    </div>
+                    <p class="testimonial-text">
+                        Morning Blend jadi teman setia saya setiap membuat konten. Rasanya smooth, tidak terlalu strong, cocok diminum sepanjang hari. Love it!
+                    </p>
+                    <div class="testimonial-date">2 minggu yang lalu</div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">L</div>
+                        <div class="testimonial-info">
+                            <div class="testimonial-name">Linda Kusuma</div>
+                            <div class="testimonial-role">Doctor</div>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        ★★★★★
+                    </div>
+                    <p class="testimonial-text">
+                        Setelah shift panjang di rumah sakit, secangkir Arabica Gayo dari Dolce selalu jadi mood booster. Aromanya therapeutic banget!
+                    </p>
+                    <div class="testimonial-date">3 minggu yang lalu</div>
+                </div>
+            </div>
+
+            <div class="scroll-hint">
+                <i class="fas fa-chevron-left"></i>
+                Geser untuk melihat testimoni lainnya
+                <i class="fas fa-chevron-right"></i>
+            </div>
+        </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script>
+        // Load Header and Footer
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-placeholder').innerHTML = data;
+                updateCartCount();
+            });
+
+        fetch('footer.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('footer-placeholder').innerHTML = data;
+            });
+
+        // Cart Functions
+        function addToCart(name, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                // Dapatkan gambar berdasarkan nama produk
+                const imagePath = getProductImage(name);
+                
+                cart.push({
+                    name: name,
+                    price: price,
+                    quantity: 1,
+                    image: imagePath
+                });
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            // Show notification
+            alert(`${name} berhasil ditambahkan ke keranjang!`);
+        }
+
+        function getProductImage(productName) {
+            // Map nama produk ke path gambar
+            const imageMap = {
+                'Arabica Premium': 'img/arabica-premium.jpg',
+                'Robusta Bold': 'img/robusta-bold.jpg',
+                'Dolce Blend': 'img/dolce-blend.jpg',
+                'Arabica Gayo': 'img/arabica-gayo.jpg',
+                'Robusta Lampung': 'img/robusta-lampung.jpg',
+                'Morning Blend': 'img/morning-blend.jpg',
+                'Arabica Toraja': 'img/arabica-toraja.jpg',
+                'Robusta Java': 'img/robusta-java.jpg',
+                'Sunset Blend': 'img/sunset-blend.jpg'
+            };
+            return imageMap[productName] || 'img/default-coffee.jpg';
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.textContent = totalItems;
+                cartCount.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+    </script>
+</body>
+</html>

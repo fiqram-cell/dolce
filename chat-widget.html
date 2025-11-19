@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Chat Widget - Dolce Coffee</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-green: #1a4d2e;
+            --medium-green: #2d5f3f;
+            --yellow: #f4c430;
+            --brown: #6b4423;
+            --cream: #faf6f0;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--cream);
+            padding: 20px;
+        }
+
+        /* Chat Button (Floating) */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--dark-green), var(--medium-green));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(26, 77, 46, 0.4);
+            transition: all 0.3s ease;
+            z-index: 9998;
+            border: 3px solid var(--yellow);
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(26, 77, 46, 0.6);
+        }
+
+        .chat-button i {
+            font-size: 1.8rem;
+            color: var(--white);
+        }
+
+        .chat-button .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e74c3c;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Chat Widget Container */
+        .chat-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 380px;
+            height: 550px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 15px 60px rgba(0,0,0,0.3);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+        }
+
+        .chat-widget.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Chat Header */
+        .chat-header {
+            background: linear-gradient(135deg, var(--dark-green), var(--brown));
+            color: var(--white);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--yellow);
+        }
+
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .chat-status {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .chat-online {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-close:hover {
+            transform: rotate(90deg);
+            color: var(--yellow);
+        }
+
+        /* Chat Messages */
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--cream);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f0f0f0;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--dark-green);
+            border-radius: 10px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            max-width: 70%;
+        }
+
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            margin-bottom: 5px;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-bubble {
+            background: var(--white);
+            color: #333;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user .message-bubble {
+            background: var(--dark-green);
+            color: var(--white);
+            border-bottom-right-radius: 5px;
+            margin-left: auto;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            color: #999;
+            padding: 0 5px;
+        }
+
+        .message.user .message-time {
+            text-align: right;
+        }
+
+        /* Quick Replies */
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply-btn {
+            padding: 8px 15px;
+            background: var(--white);
+            border: 2px solid var(--dark-green);
+            border-radius: 20px;
+            color: var(--dark-green);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .quick-reply-btn:hover {
+            background: var(--dark-green);
+            color: var(--white);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            background: var(--white);
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--dark-green);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        /* Chat Input */
+        .chat-input-container {
+            padding: 15px 20px;
+            background: var(--white);
+            border-top: 2px solid var(--cream);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--cream);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--dark-green);
+        }
+
+        .chat-send-btn {
+            width: 45px;
+            height: 45px;
+            background: var(--dark-green);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .chat-send-btn:hover {
+            background: var(--medium-green);
+            transform: scale(1.1);
+        }
+
+        .chat-send-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-option {
+            padding: 15px 20px;
+            background: #25D366;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-option:hover {
+            background: #20ba5a;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .chat-widget {
+                width: calc(100vw - 40px);
+                height: calc(100vh - 140px);
+                right: 20px;
+                bottom: 90px;
+            }
+
+            .chat-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Chat Button -->
+    <div class="chat-button" id="chatButton">
+        <i class="fas fa-comments"></i>
+        <span class="notification-badge">1</span>
+    </div>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <div class="chat-header-info">
+                <div class="chat-avatar">
+                    <img src="img/logo.jpg" alt="Dolce Coffee">
+                </div>
+                <div class="chat-status">
+                    <div class="chat-name">Dolce Coffee</div>
+                    <div class="chat-online">
+                        <span class="online-dot"></span>
+                        Online
+                    </div>
+                </div>
+            </div>
+            <button class="chat-close" id="chatClose">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-avatar">☕</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        Halo! Selamat datang di Dolce Coffee 👋<br><br>
+                        Ada yang bisa kami bantu hari ini?
+                    </div>
+                    <div class="message-time">Baru saja</div>
+                </div>
+            </div>
+
+            <!-- Quick Replies -->
+            <div class="quick-replies">
+                <button class="quick-reply-btn" onclick="sendQuickReply('Lihat Menu')">
+                     Lihat Menu
+                </button>
+                <button class="quick-reply-btn" onclick="sendQuickReply('Promo Hari Ini')">
+                     Promo
+                </button>
+                <button class="quick-reply-btn" onclick="sendQuickReply('Jam Operasional')">
+                     Jam Buka
+                </button>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="message-avatar">☕</div>
+                <div class="typing-dots">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- WhatsApp Option -->
+        <div class="whatsapp-option" onclick="openWhatsApp()">
+            <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+            Chat via WhatsApp
+        </div>
+
+        <!-- Chat Input -->
+        <div class="chat-input-container">
+            <input 
+                type="text" 
+                class="chat-input" 
+                id="chatInput" 
+                placeholder="Ketik pesan Anda..."
+                onkeypress="handleKeyPress(event)"
+            >
+            <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const chatButton = document.getElementById('chatButton');
+        const chatWidget = document.getElementById('chatWidget');
+        const chatClose = document.getElementById('chatClose');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Toggle Chat Widget
+        chatButton.addEventListener('click', () => {
+            chatWidget.classList.toggle('active');
+            if (chatWidget.classList.contains('active')) {
+                chatInput.focus();
+                // Remove notification badge
+                const badge = chatButton.querySelector('.notification-badge');
+                if (badge) badge.remove();
+            }
+        });
+
+        chatClose.addEventListener('click', () => {
+            chatWidget.classList.remove('active');
+        });
+
+        // Bot Responses Database
+        const botResponses = {
+            'lihat menu': {
+                text: 'Kami punya banyak pilihan kopi premium! 🎉\n\n☕ Coffee: Dolce Coffee, Americano, Vanilla Latte, dll\n🥤 Non-Coffee: Taro, Thai Tea, Red Velvet, dll\n\nMau lihat produk lengkapnya?',
+                action: 'produk'
+            },
+            'promo': {
+                text: '🎊 Promo Spesial Hari Ini!\n\n✨ Beli 2 Gratis 1 untuk semua varian signature\n💰 Diskon 20% untuk pembelian di atas Rp 100.000\n\nMau pesan sekarang? 😊'
+            },
+            'jam': {
+                text: '⏰ Jam Operasional Dolce Coffee:\n\nSenin - Minggu: 16:00 - 23:00 WIB\n\nKami siap melayani Anda setiap hari! ☕'
+            },
+            'harga': {
+                text: '💰 Rentang Harga Produk Kami:\n\n☕ Coffee: Rp 10.000 - Rp 15.000\n🥤 Non-Coffee: Rp 13.000 - Rp 15.000\n\nSemua dengan kualitas premium! 🌟'
+            },
+            'lokasi': {
+                text: '📍 Lokasi Kami:\n\nJl. Rutan No. 38E\nMakassar, Indonesia\n\n📞 Telepon: +62 851-7329-2984\n📧 Email: dolcecofee@gmail.com'
+            },
+            'default': {
+                text: 'Terima kasih atas pesannya! 😊\n\nUntuk informasi lebih detail, silakan hubungi kami via WhatsApp atau pilih menu bantuan di atas ya!'
+            }
+        };
+
+        // Send Message Function
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            chatInput.value = '';
+
+            // Show typing indicator
+            showTyping();
+
+            // Bot response after delay
+            setTimeout(() => {
+                hideTyping();
+                const response = getBotResponse(message);
+                addMessage(response.text, 'bot');
+                
+                if (response.action === 'produk') {
+                    setTimeout(() => {
+                        addActionButton('Lihat Produk', 'produk.html');
+                    }, 500);
+                }
+            }, 1500);
+        }
+
+        // Add Message to Chat
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const time = new Date().toLocaleTimeString('id-ID', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${sender === 'bot' ? '☕' : '👤'}</div>
+                <div class="message-content">
+                    <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+
+            // Remove quick replies if exist
+            const quickReplies = chatMessages.querySelector('.quick-replies');
+            if (quickReplies && sender === 'user') {
+                quickReplies.remove();
+            }
+
+            chatMessages.insertBefore(messageDiv, typingIndicator);
+            scrollToBottom();
+        }
+
+        // Add Action Button
+        function addActionButton(text, link) {
+            const buttonDiv = document.createElement('div');
+            buttonDiv.className = 'message bot';
+            buttonDiv.innerHTML = `
+                <div class="message-avatar">☕</div>
+                <div class="message-content">
+                    <div class="quick-replies">
+                        <button class="quick-reply-btn" onclick="window.location.href='${link}'">
+                            ${text} →
+                        </button>
+                    </div>
+                </div>
+            `;
+            chatMessages.insertBefore(buttonDiv, typingIndicator);
+            scrollToBottom();
+        }
+
+        // Get Bot Response
+        function getBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('menu') || lowerMessage.includes('produk')) {
+                return botResponses['lihat menu'];
+            } else if (lowerMessage.includes('promo') || lowerMessage.includes('diskon')) {
+                return botResponses['promo'];
+            } else if (lowerMessage.includes('pesanan') || lowerMessage.includes('order')) {
+                return botResponses['cek pesanan'];
+            } else if (lowerMessage.includes('jam') || lowerMessage.includes('buka')) {
+                return botResponses['jam'];
+            } else if (lowerMessage.includes('harga') || lowerMessage.includes('berapa')) {
+                return botResponses['harga'];
+            } else if (lowerMessage.includes('lokasi') || lowerMessage.includes('alamat')) {
+                return botResponses['lokasi'];
+            } else if (lowerMessage.includes('halo') || lowerMessage.includes('hai')) {
+                return {
+                    text: 'Halo juga! 👋 Senang bisa membantu Anda. Ada yang ingin ditanyakan tentang produk kami?'
+                };
+            } else {
+                return botResponses['default'];
+            }
+        }
+
+        // Quick Reply Function
+        function sendQuickReply(text) {
+            addMessage(text, 'user');
+            
+            showTyping();
+            setTimeout(() => {
+                hideTyping();
+                const response = getBotResponse(text);
+                addMessage(response.text, 'bot');
+                
+                if (response.action === 'produk') {
+                    setTimeout(() => {
+                        addActionButton('Lihat Produk', 'produk.html');
+                    }, 500);
+                }
+            }, 1500);
+        }
+
+        // Typing Indicator
+        function showTyping() {
+            typingIndicator.classList.add('active');
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            typingIndicator.classList.remove('active');
+        }
+
+        // Scroll to Bottom
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Handle Enter Key
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Open WhatsApp
+        function openWhatsApp() {
+            const phoneNumber = '6285173292984'; // Nomor dari footer
+            const message = encodeURIComponent('Halo Dolce Coffee, saya ingin bertanya tentang produk Anda.');
+            window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+        }
+
+        // Auto scroll on load
+        window.addEventListener('load', scrollToBottom);
+    </script>
+</body>
+</html>

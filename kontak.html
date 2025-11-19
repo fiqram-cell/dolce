@@ -1003,8 +1003,84 @@
         // Submit Form Function
         function submitForm(e) {
             e.preventDefault();
-            document.getElementById('success-modal').classList.add('active');
-            document.getElementById('contact-form').reset();
+            
+            // Validasi form
+            const form = document.getElementById('contact-form');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            // Get form data
+            const nama = form.querySelector('input[type="text"]').value;
+            const email = form.querySelector('input[type="email"]').value;
+            const telepon = form.querySelector('input[type="tel"]').value;
+            const subjek = form.querySelector('select').value;
+            const pesan = form.querySelector('textarea').value;
+            
+            // Format subjek name
+            const subjekNames = {
+                'produk': 'Pertanyaan Produk',
+                'pemesanan': 'Pemesanan',
+                'kerjasama': 'Kerjasama Bisnis',
+                'komplain': 'Keluhan/Komplain',
+                'saran': 'Saran & Masukan',
+                'lainnya': 'Lainnya'
+            };
+            
+            // Create WhatsApp message
+            let message = `*PESAN BARU - DOLCE COFFEE*\n\n`;
+            message += `📋 *INFORMASI PENGIRIM*\n`;
+            message += `Nama: ${nama}\n`;
+            message += `Email: ${email}\n`;
+            message += `Telepon: ${telepon}\n`;
+            message += `Subjek: ${subjekNames[subjek] || subjek}\n\n`;
+            message += `💬 *PESAN*\n${pesan}\n\n`;
+            message += `---\n`;
+            message += `Dikirim melalui Form Kontak Website`;
+            
+            // Simpan data pesan untuk tracking
+            const contactData = {
+                timestamp: new Date().toISOString(),
+                nama: nama,
+                email: email,
+                telepon: telepon,
+                subjek: subjek,
+                pesan: pesan
+            };
+            
+            // Simpan ke history contacts
+            let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            contacts.push(contactData);
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+            
+            // Send to WhatsApp - akan otomatis membuka WhatsApp dengan pesan siap kirim
+            const phoneNumber = '6285173292984';
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            // Buka WhatsApp di tab baru
+            const whatsappWindow = window.open(whatsappURL, '_blank');
+            
+            // Tampilkan notifikasi berhasil setelah delay singkat
+            setTimeout(() => {
+                // Show success modal
+                document.getElementById('success-modal').classList.add('active');
+                
+                // Reset form
+                form.reset();
+                
+                // Tambahkan konfirmasi audio (optional)
+                playSuccessSound();
+            }, 500);
+        }
+        
+        // Fungsi untuk memainkan suara sukses (optional)
+        function playSuccessSound() {
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSuBzvLZiTYIGGS56+mjUBELTKXh8bllHAU2jdXvz3gjBSl+zPLaizsKGGK258Of');
+                audio.volume = 0.3;
+                audio.play().catch(() => {}); // Ignore errors jika browser block autoplay
+            } catch(e) {}
         }
 
         // Close Modal Function

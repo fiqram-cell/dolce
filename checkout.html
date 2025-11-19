@@ -557,6 +557,54 @@
         function processCheckout(e) {
             e.preventDefault();
             
+            // Get form data
+            const form = document.getElementById('checkout-form');
+            const formData = new FormData(form);
+            const nama = form.querySelector('input[type="text"]').value;
+            const telepon = form.querySelector('input[type="tel"]').value;
+            const catatan = form.querySelector('textarea').value;
+            const metodePembayaran = form.querySelector('input[name="payment"]:checked').value;
+            
+            // Get cart data
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = 15000;
+            const total = subtotal + shipping;
+            
+            // Format payment method name
+            const paymentNames = {
+                'transfer': 'Transfer Bank',
+                'ewallet': 'E-Wallet',
+                'cod': 'Bayar di Tempat (COD)',
+                'credit': 'Kartu Kredit'
+            };
+            
+            // Create WhatsApp message
+            let message = `*PESANAN BARU - DOLCE COFFEE*\n\n`;
+            message += `📋 *INFORMASI PELANGGAN*\n`;
+            message += `Nama: ${nama}\n`;
+            message += `Telepon: ${telepon}\n`;
+            message += `Catatan: ${catatan || '-'}\n\n`;
+            
+            message += `🛍️ *DETAIL PESANAN*\n`;
+            cart.forEach((item, index) => {
+                message += `${index + 1}. ${item.name}\n`;
+                message += `   ${item.quantity}x Rp ${item.price.toLocaleString('id-ID')} = Rp ${(item.price * item.quantity).toLocaleString('id-ID')}\n`;
+            });
+            
+            message += `\n💰 *RINGKASAN PEMBAYARAN*\n`;
+            message += `Subtotal: Rp ${subtotal.toLocaleString('id-ID')}\n`;
+            message += `Ongkir: Rp ${shipping.toLocaleString('id-ID')}\n`;
+            message += `*Total: Rp ${total.toLocaleString('id-ID')}*\n\n`;
+            
+            message += `💳 *Metode Pembayaran*: ${paymentNames[metodePembayaran]}\n\n`;
+            message += `Terima kasih telah memesan di Dolce Coffee! ☕`;
+            
+            // Send to WhatsApp
+            const phoneNumber = '6285173292984';
+            const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+            
             // Show success modal
             document.getElementById('success-modal').classList.add('active');
             
